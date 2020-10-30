@@ -21,4 +21,10 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Transactional
     void deleteBookByBookId(Integer bookId);
 
+    List<Book> findBooksByBorrowermemnoIsNotNull();
+
+    Integer countBookByCallnumberIs(String callnumber);
+
+    @Query(value = "select CallNumber from book group by CallNumber having COUNT(*)<=2",nativeQuery = true)
+    List<String> findBooksBySQL();
 }

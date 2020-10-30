@@ -51,14 +51,24 @@ public class BookServiceImpl implements BookService {
         //1:表示数据库中已有对应id的书
         //2:表示数据库中不存在对应的人员
         //3:表示数据库中不存在对应的索引号码
-        if(method == 0){
-            if( bookRepository.findBooksByBookId(book.getBookId()) != null){
+        if (method == 0) {
+            if (bookRepository.findBooksByBookId(book.getBookId()) != null) {
                 return 1;
             }
         }
-        if(memberRepository.findById(book.getBorrowermemno()).isEmpty()){return 2;}
-        if(titleRepository.findById(book.getCallnumber()).isEmpty()){return 3;}
+        if (memberRepository.findById(book.getBorrowermemno()).isEmpty()) {
+            return 2;
+        }
+        if (titleRepository.findById(book.getCallnumber()).isEmpty()) {
+            return 3;
+        }
         bookRepository.saveAndFlush(book);
         return 0;
+    }
+    public List<Book> findBooksByBorrowermemnoIsNotNull() { return bookRepository.findBooksByBorrowermemnoIsNotNull(); }
+
+    @Override
+    public Integer countBookByCallnumberIs(String callnumber) {
+        return bookRepository.countBookByCallnumberIs(callnumber);
     }
 }
